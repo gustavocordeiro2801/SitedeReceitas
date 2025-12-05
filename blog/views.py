@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post
+from .forms import PostForm
 
 # LISTAGEM
 def lista_posts(request):
@@ -11,38 +12,31 @@ def detalhe_post(request, id):
     post = get_object_or_404(Post, id=id)
     return render(request, 'blog/detalhe.html', {'post': post})
 
-# CRIAR POST (sem forms)
+# CRIAR POST (com Django Forms)
 def criar_post(request):
     if request.method == 'POST':
-        titulo = request.POST.get('titulo')
-        descricao = request.POST.get('descricao')
-        ingredientes = request.POST.get('ingredientes')
-        modo_preparo = request.POST.get('modo_preparo')
+        form = PostForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('lista_posts')
+    else:
+        form = PostForm()
+    
+    return render(request, 'blog/criar.html', {'form': form})
 
-        Post.objects.create(
-            titulo=titulo,
-            descricao=descricao,
-            ingredientes=ingredientes,
-            modo_preparo=modo_preparo
-        )
-
-        return redirect('lista_posts')
-
-    return render(request, 'blog/criar.html')
-
-# EDITAR POST (sem forms)
+# EDITAR POST (com Django Forms)
 def editar_post(request, id):
     post = get_object_or_404(Post, id=id)
-
+    
     if request.method == 'POST':
-        post.titulo = request.POST.get('titulo')
-        post.descricao = request.POST.get('descricao')
-        post.ingredientes = request.POST.get('ingredientes')
-        post.modo_preparo = request.POST.get('modo_preparo')
-        post.save()
-        return redirect('detalhe_post', id=post.id)
-
-    return render(request, 'blog/editar.html', {'post': post})
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('detalhe_post', id=post.id)
+    else:
+        form = PostForm(instance=post)
+    
+    return render(request, 'blog/editar.html', {'form': form, 'post': post})
 
 # EXCLUIR POST (com confirmação)
 def excluir_post(request, id):

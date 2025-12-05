@@ -6,17 +6,14 @@
 <form method="POST">
     {% csrf_token %}
     
-    <label><strong>Título da Receita:</strong></label><br>
-    <input type="text" name="titulo" size="60" required><br><br>
-
-    <label><strong>Descrição (opcional):</strong></label><br>
-    <textarea name="descricao" rows="3" cols="60" placeholder="Uma breve descrição da receita..."></textarea><br><br>
-
-    <label><strong>Ingredientes:</strong></label><br>
-    <textarea name="ingredientes" rows="8" cols="60" required placeholder="Ex: 2 xícaras de farinha; 1 xícara de açúcar"></textarea><br><br>
-
-    <label><strong>Modo de Preparo:</strong></label><br>
-    <textarea name="modo_preparo" rows="10" cols="60" required placeholder="Ex: Misture os ingredientes secos; Adicione os líquidos"></textarea><br><br>
+    {% for field in form %}
+        <label><strong>{{ field.label }}:</strong></label><br>
+        {{ field }}<br>
+        {% if field.errors %}
+            <p style="color: red;">{{ field.errors }}</p>
+        {% endif %}
+        <br>
+    {% endfor %}
 
     <button type="submit" style="padding: 8px 15px;">Salvar Receita</button>
     <a href="{% url 'lista_posts' %}" style="margin-left: 10px;">Cancelar</a>
