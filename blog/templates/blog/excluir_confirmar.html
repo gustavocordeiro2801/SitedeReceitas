@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<h2>Confirmar exclusão</h2>
+
+<p>Tem certeza que deseja excluir a receita <strong>{{ post.titulo }}</strong>?</p>
+<p><small>Esta ação não pode ser desfeita.</small></p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" style="background-color: red; color: white; padding: 10px;">Sim, excluir</button>
+</form>
+
+<a href="{% url 'detalhe_post' post.id %}">Cancelar</a>
+
+{% endblock %}

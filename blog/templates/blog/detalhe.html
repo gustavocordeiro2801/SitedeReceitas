@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<article style="max-width: 800px;">
+    <h2>{{ post.titulo }}</h2>
+    <p><small>Publicado em: {{ post.data_postagem|date:"d/m/Y H:i" }}</small></p>
+    
+    {% if post.descricao %}
+    <div style="background-color: #f9f9f9; padding: 15px; margin: 20px 0; border-left: 4px solid #ff8c42;">
+        <p><em>{{ post.descricao }}</em></p>
+    </div>
+    {% endif %}
+    
+    <hr>
+    
+    <h3>📝 Ingredientes</h3>
+    <div style="margin: 15px 0;">
+        {{ post.ingredientes|safe }}
+    </div>
+    
+    <h3>👨‍🍳 Modo de Preparo</h3>
+    <div style="margin: 15px 0;">
+        {{ post.modo_preparo|safe }}
+    </div>
+    
+    <hr style="margin-top: 30px;">
+    <p>
+        <a href="{% url 'editar_post' post.id %}">✏️ Editar</a> |
+        <a href="{% url 'excluir_post' post.id %}" style="color: red;">🗑️ Excluir</a> |
+        <a href="{% url 'lista_posts' %}">⬅️ Voltar</a>
+    </p>
+</article>
+{% endblock %}

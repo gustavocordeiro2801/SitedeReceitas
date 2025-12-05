@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<h2>Todas as receitas</h2>
+
+{% for post in posts %}
+    <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #fefefe;">
+        <h3><a href="{% url 'detalhe_post' post.id %}" style="color: #000; text-decoration: none;">{{ post.titulo }}</a></h3>
+        
+        {% if post.descricao %}
+            <p style="color: #666;">{{ post.descricao|truncatewords:30 }}</p>
+        {% endif %}
+        
+        <p><small style="color: #999;">Publicado em: {{ post.data_postagem|date:"d/m/Y H:i" }}</small></p>
+        
+        <p style="margin-top: 10px;">
+            <a href="{% url 'detalhe_post' post.id %}">Ver detalhes</a> |
+            <a href="{% url 'editar_post' post.id %}">Editar</a> |
+            <a href="{% url 'excluir_post' post.id %}" style="color: #d9534f;">Excluir</a>
+        </p>
+    </div>
+{% empty %}
+    <p>Nenhuma receita encontrada.</p>
+{% endfor %}
+
+{% endblock %}

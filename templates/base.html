@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Receitas de Doces</title>
+</head>
+<body>
+    <h1>Receitas de Doces 🍰</h1>
+    <hr>
+    <a href="{% url 'lista_posts' %}">Home</a> |
+    <a href="{% url 'criar_post' %}">Criar nova receita</a>
+    <hr>
+
+    {% block conteudo %}{% endblock %}
+</body>
+</html>
