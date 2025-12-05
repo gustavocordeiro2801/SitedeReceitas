@@ -8,8 +8,8 @@ class PostForm(forms.ModelForm):
         widgets = {
             'titulo': forms.TextInput(attrs={'size': '60'}),
             'descricao': forms.Textarea(attrs={'rows': 3, 'cols': 60, 'placeholder': 'Uma breve descrição da receita...'}),
-            'ingredientes': forms.Textarea(attrs={'rows': 8, 'cols': 60, 'placeholder': 'Ex: <ul><li>2 xícaras de farinha</li><li>1 xícara de açúcar</li></ul>'}),
-            'modo_preparo': forms.Textarea(attrs={'rows': 10, 'cols': 60, 'placeholder': 'Ex: <ol><li>Misture os ingredientes secos</li><li>Adicione os líquidos</li></ol>'}),
+            'ingredientes': forms.Textarea(attrs={'rows': 8, 'cols': 60, 'placeholder': 'Ex: xícaras de farinha, 1 xícara de açúcar'}),
+            'modo_preparo': forms.Textarea(attrs={'rows': 10, 'cols': 60, 'placeholder': 'Ex: Misture os ingredientes secos, Adicione os líquidos'}),
         }
         labels = {
             'titulo': 'Título da Receita',
