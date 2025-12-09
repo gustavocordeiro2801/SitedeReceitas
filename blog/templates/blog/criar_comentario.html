@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<h2>Adicionar comentário</h2>
+<h3>{{ post.titulo }}</h3>
+
+<form method="POST">
+    {% csrf_token %}
+    
+    {% for field in form %}
+        <label><strong>{{ field.label }}:</strong></label><br>
+        {{ field }}<br>
+        {% if field.errors %}
+            <p style="color: red;">{{ field.errors }}</p>
+        {% endif %}
+        <br>
+    {% endfor %}
+
+    <button type="submit" style="padding: 8px 15px;">Enviar Comentário</button>
+    <a href="{% url 'detalhe_post' post.id %}" style="margin-left: 10px;">Cancelar</a>
+</form>
+
+{% endblock %}

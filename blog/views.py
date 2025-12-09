@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .models import Post
-from .forms import PostForm
+from django.contrib.auth.decorators import login_required
+from .models import Post, Comment
+from .forms import PostForm, CommentForm
 
 # LISTAGEM - ListView
 class ListaPostsView(ListView):
@@ -17,6 +18,11 @@ class DetalhePostView(DetailView):
     template_name = 'blog/detalhe.html'
     context_object_name = 'post'
     pk_url_kwarg = 'id'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comentarios'] = self.object.comentarios.all()
+        return context
 
 # CRIAR - CreateView
 class CriarPostView(CreateView):
@@ -43,3 +49,21 @@ class ExcluirPostView(DeleteView):
     context_object_name = 'post'
     pk_url_kwarg = 'id'
     success_url = reverse_lazy('lista_posts')
+
+# CRIAR COMENTÁRIO - Função
+@login_required
+def criar_comentario(request, post_id):
+    post = get_object_or_404(Post, id=post_id)
+    
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comentario = form.save(commit=False)
+            comentario.post = post
+            comentario.autor = request.user
+            comentario.save()
+            return redirect('detalhe_post', id=post.id)
+    else:
+        form = CommentForm()
+    
+    return render(request, 'blog/criar_comentario.html', {'form': form, 'post': post})

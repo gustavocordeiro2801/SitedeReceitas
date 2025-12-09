@@ -29,5 +29,23 @@
         <a href="{% url 'excluir_post' post.id %}" style="color: red;">🗑️ Excluir</a> |
         <a href="{% url 'lista_posts' %}">⬅️ Voltar</a>
     </p>
+    
+    <hr style="margin-top: 40px;">
+    
+    <h3>💬 Comentários ({{ comentarios.count }})</h3>
+    
+    <p><a href="{% url 'criar_comentario' post.id %}" style="background-color: #4CAF50; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px;">➕ Adicionar Comentário</a></p>
+    
+    {% if comentarios %}
+        {% for comentario in comentarios %}
+        <div style="background-color: #f9f9f9; padding: 15px; margin: 15px 0; border-left: 3px solid #4CAF50;">
+            <p><strong>{{ comentario.autor.username }}</strong> <small style="color: #666;">- {{ comentario.data_postagem|date:"d/m/Y H:i" }}</small></p>
+            <p>{{ comentario.texto }}</p>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="color: #666;"><em>Ainda não há comentários. Seja o primeiro a comentar!</em></p>
+    {% endif %}
+    
 </article>
 {% endblock %}
