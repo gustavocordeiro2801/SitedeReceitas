@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 
 {% block conteudo %}
-<h2>Todas as receitas</h2>
+{% if categoria %}
+    <h2>Receitas da categoria: {{ categoria.nome }}</h2>
+    {% if categoria.descricao %}
+        <p style="color: #666; font-style: italic;">{{ categoria.descricao }}</p>
+    {% endif %}
+    <hr>
+{% else %}
+    <h2>Todas as receitas</h2>
+{% endif %}
 
 {% for post in posts %}
     <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #fefefe;">

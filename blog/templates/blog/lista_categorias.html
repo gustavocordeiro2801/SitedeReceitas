@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<h2>Todas as Categorias</h2>
+
+{% if categorias %}
+    {% for categoria in categorias %}
+    <div style="margin-bottom: 20px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #fefefe;">
+        <h3><a href="{% url 'detalhe_categoria' categoria.id %}" style="color: #000; text-decoration: none;">{{ categoria.nome }}</a></h3>
+        
+        {% if categoria.descricao %}
+            <p style="color: #666;">{{ categoria.descricao }}</p>
+        {% endif %}
+        
+        <p><small style="color: #999;">{{ categoria.posts.count }} receita(s)</small></p>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>Nenhuma categoria encontrada.</p>
+{% endif %}
+
+{% endblock %}

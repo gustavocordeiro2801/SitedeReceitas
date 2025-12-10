@@ -3,12 +3,25 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+class Category(models.Model):
+    nome = models.CharField(max_length=100, unique=True)
+    descricao = models.TextField(blank=True)
+
+    class Meta:
+        verbose_name = 'Categoria'
+        verbose_name_plural = 'Categorias'
+        ordering = ['nome']
+
+    def __str__(self):
+        return self.nome
+
 class Post(models.Model):
     titulo = models.CharField(max_length=200)
     descricao = models.TextField(blank=True)  # Descrição breve da receita
     ingredientes = models.TextField()  # Lista de ingredientes (HTML)
     modo_preparo = models.TextField()  # Modo de preparo (HTML)
     data_postagem = models.DateTimeField(auto_now_add=True)
+    categorias = models.ManyToManyField(Category, related_name='posts', blank=True)
 
     def __str__(self):
         return self.titulo

@@ -5,6 +5,15 @@
     <h2>{{ post.titulo }}</h2>
     <p><small>Publicado em: {{ post.data_postagem|date:"d/m/Y H:i" }}</small></p>
     
+    {% if post.categorias.all %}
+    <p style="margin: 10px 0;">
+        <strong>🏷️ Categorias:</strong>
+        {% for categoria in post.categorias.all %}
+            <a href="{% url 'detalhe_categoria' categoria.id %}" style="background-color: #e0e0e0; padding: 5px 10px; margin: 2px; text-decoration: none; color: #333; border-radius: 3px; display: inline-block;">{{ categoria.nome }}</a>
+        {% endfor %}
+    </p>
+    {% endif %}
+    
     {% if post.descricao %}
     <div style="background-color: #f9f9f9; padding: 15px; margin: 20px 0; border-left: 4px solid #ff8c42;">
         <p><em>{{ post.descricao }}</em></p>

@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
-from .models import Post, Comment
+from .models import Post, Comment, Category
 from .forms import PostForm, CommentForm
 
 # LISTAGEM - ListView
@@ -42,7 +42,7 @@ class EditarPostView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('detalhe_post', kwargs={'id': self.object.id})
 
-# EXCLUIR - DeleteView (com página de confirmação)
+# EXCLUIR - DeleteView 
 class ExcluirPostView(DeleteView):
     model = Post
     template_name = 'blog/excluir_confirmar.html'
@@ -50,7 +50,7 @@ class ExcluirPostView(DeleteView):
     pk_url_kwarg = 'id'
     success_url = reverse_lazy('lista_posts')
 
-# CRIAR COMENTÁRIO - Função
+# CRIAR COMENTÁRIO
 @login_required
 def criar_comentario(request, post_id):
     post = get_object_or_404(Post, id=post_id)
@@ -67,3 +67,22 @@ def criar_comentario(request, post_id):
         form = CommentForm()
     
     return render(request, 'blog/criar_comentario.html', {'form': form, 'post': post})
+
+# LISTAGEM DE CATEGORIAS - ListView
+class ListaCategoriasView(ListView):
+    model = Category
+    template_name = 'blog/lista_categorias.html'
+    context_object_name = 'categorias'
+    ordering = ['nome']
+
+# DETALHE DE CATEGORIA 
+class DetalheCategoriaView(DetailView):
+    model = Category
+    template_name = 'blog/lista.html'  
+    context_object_name = 'categoria'
+    pk_url_kwarg = 'id'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = self.object.posts.all().order_by('-data_postagem')
+        return context
