@@ -14,8 +14,8 @@ class PostForm(forms.ModelForm):
         labels = {
             'titulo': 'Título da Receita',
             'descricao': 'Descrição (opcional)',
-            'ingredientes': 'Ingredientes (pode usar HTML)',
-            'modo_preparo': 'Modo de Preparo (pode usar HTML)',
+            'ingredientes': 'Ingredientes',
+            'modo_preparo': 'Modo de Preparo',
         }
 
 class CommentForm(forms.ModelForm):
